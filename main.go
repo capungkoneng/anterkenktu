@@ -4,22 +4,20 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"net/http"
 
+	"github.com/capungkoneng/anterkenktu/api"
 	db "github.com/capungkoneng/anterkenktu/db/sqlc"
-	_ "github.com/lib/pq"
-
-	// "github.com/capungkoneng/anterkenktu/api"
-	// db "github.com/capungkoneng/anterkenktu/db/sqlc"
 	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 )
 
-type Hanlers struct {
-	Repo *db.Repo
+type Server struct {
+	store *db.Repo
 }
 
-func NewHandlers(repo *db.Repo) *Hanlers {
-	return &Hanlers{Repo: repo}
+func NewHandlers(store *db.Repo) *Server {
+	server := &Server{store: store}
+	return server
 }
 func main() {
 	conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require"))
@@ -30,23 +28,10 @@ func main() {
 	repo := db.NewStore(conn)
 	router := gin.Default()
 	fmt.Println(conn)
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	router.GET("/", api.GetHandlerHallo)
 
 	Hanlers := NewHandlers(repo)
 	fmt.Println(Hanlers)
-	router.Run() //
-	// store := db.NewStore(conn)
-	// server := api.NewServer(&store)
+	router.Run()
 
-	// err = server.Start("")
-	// if err != nil {
-	// 	log.Fatal("cannot connect to server", err)
-	// }
-
-	// server.SetTrustedProxies(nil)
-	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

@@ -1,11 +1,11 @@
 package api
 
-// import (
-// 	"net/http"
+import (
+	"net/http"
 
-// 	db "github.com/capungkoneng/anterkenktu/db/sqlc"
-// 	"github.com/gin-gonic/gin"
-// )
+	// db "github.com/capungkoneng/anterkenktu/db/sqlc"
+	"github.com/gin-gonic/gin"
+)
 
 // type ListKategori struct {
 // 	PageID   int32 `form:"page_id" binding:"required,min=1"`
@@ -32,3 +32,9 @@ package api
 // 	ctx.JSON(http.StatusOK, akun)
 
 // }
+
+func GetHandlerHallo(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": "Hellow word",
+	})
+}
