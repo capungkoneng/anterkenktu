@@ -27,11 +27,12 @@ func main() {
 
 	repo := db.NewStore(conn)
 	router := gin.Default()
-	fmt.Println(conn)
+	fmt.Println("koneksi:", conn)
+
 	router.GET("/", api.GetHandlerHallo)
 
 	Hanlers := NewHandlers(repo)
-	fmt.Println(Hanlers)
+	fmt.Println("repo:", Hanlers)
 	router.Run()
 
 }
