@@ -2,18 +2,14 @@ package db
 
 import "database/sql"
 
-type Store interface {
-	Querier
-}
-
-type SQLStore struct {
-	db *sql.DB
+type Repo struct {
 	*Queries
+	DB *sql.DB
 }
 
-func NewStore(db *sql.DB) Store {
-	return &SQLStore{
-		db:      db,
+func NewStore(db *sql.DB) *Repo {
+	return &Repo{
+		DB:      db,
 		Queries: New(db),
 	}
 }
