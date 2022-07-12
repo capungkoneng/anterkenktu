@@ -1,19 +1,18 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"database/sql"
+	"log"
 )
 
 func main() {
-	server := gin.Default()
-	server.SetTrustedProxies(nil)
+	conn, err := sql.Open("postgres", "dbuser= dbpassword= dbhost= dbport= dbdatabse= sslmode=require")
+	if err != nil {
+		log.Fatal("cannot connect to database", err)
+	}
+	store := db.NewStore(conn)
+	server := api.NewServer(store)
 
-	server.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-	server.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	// server.SetTrustedProxies(nil)
+	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
