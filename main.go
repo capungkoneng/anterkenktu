@@ -11,28 +11,46 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type Server struct {
-	store *db.Repo
-}
+var (
+	server *gin.Engine
+	dbCon  *db.Queries
 
-func NewHandlers(store *db.Repo) *Server {
-	server := &Server{store: store}
-	return server
-}
-func main() {
+	// AuthController controllers.AuthController
+	// AuthRoutes     routes.AuthRoutes
+)
+
+func init() {
+
 	conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require"))
 	if err != nil {
-		log.Fatal("cannot connect to database", err)
+		log.Fatalf("could not connect to postgres database: %v", err)
 	}
 
-	repo := db.NewStore(conn)
-	router := gin.Default()
-	fmt.Println("koneksi:", conn)
+	dbCon = db.New(conn)
+
+	fmt.Println("PostgreSQL connected successfully...", dbCon)
+
+	// AuthController = *controllers.NewAuthController(db)
+	// AuthRoutes = routes.NewAuthRoutes(AuthController)
+
+	server = gin.Default()
+}
+
+func main() {
+	// conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require"))
+	// if err != nil {
+	// 	log.Fatal("cannot connect to database", err)
+	// }
+
+	// repo := db.NewStore(conn)
+	// router := gin.Default()
+	// fmt.Println("koneksi:", conn)
+	router := server.Group("/api")
 
 	router.GET("/", api.GetHandlerHallo)
 
-	Hanlers := NewHandlers(repo)
-	fmt.Println("repo:", Hanlers)
-	router.Run()
+	// Hanlers := NewHandlers(repo)
+	// fmt.Println("repo:", Hanlers)
+	server.Run()
 
 }
