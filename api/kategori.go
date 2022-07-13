@@ -34,12 +34,12 @@ import (
 // 	ctx.JSON(http.StatusOK, akun)
 
 // }
-type NullString struct {
-	String string
-	Valid  bool // Valid is true if String is not NULL
-}
 type KategoriController struct {
 	db *db.Queries
+}
+type createKategRequest struct {
+	NamaKategori string         `json:"nama_kategori" binding:"required"`
+	Deskripsi    sql.NullString `json:"deskripsi" binding:"required,max=100"`
 }
 
 // func NewKategoriController(db *db.Queries) *KategoriController {
@@ -47,7 +47,7 @@ type KategoriController struct {
 // }
 func CreateKategori(ctx *gin.Context) {
 	var a *KategoriController
-	var req *db.Kategori
+	var req createKategRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -55,7 +55,7 @@ func CreateKategori(ctx *gin.Context) {
 
 	arg := &db.CreateKategoriParams{
 		NamaKategori: req.NamaKategori,
-		Deskripsi:    sql.NullString{String: "a string goes here", Valid: true},
+		Deskripsi:    req.Deskripsi,
 	}
 
 	kategori, err := a.db.CreateKategori(ctx, *arg)
