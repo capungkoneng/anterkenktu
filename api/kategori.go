@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"net/http"
 
 	// db "github.com/capungkoneng/anterkenktu/db/sqlc"
@@ -51,7 +52,7 @@ func CreateKategori(ctx *gin.Context) {
 
 	arg := &db.CreateKategoriParams{
 		NamaKategori: req.NamaKategori,
-		Deskripsi:    req.Deskripsi,
+		Deskripsi:    sql.NullString{String: "a string goes here", Valid: true},
 	}
 
 	kategori, err := a.db.CreateKategori(ctx, *arg)
