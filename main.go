@@ -33,9 +33,9 @@ func main() {
 	// repo := db.NewStore(conn)
 	// router := gin.Default()
 	// fmt.Println("koneksi:", conn)
-	v1 := server.Group("/v1")
+	v1 := server.Group("/api")
 
-	v1.GET("/", api.GetHandlerHallo)
+	v1.POST("/kategori", api.CreateKategori)
 
 	// Hanlers := NewHandlers(repo)
 	// fmt.Println("repo:", Hanlers)

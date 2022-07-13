@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	// db "github.com/capungkoneng/anterkenktu/db/sqlc"
+	db "github.com/capungkoneng/anterkenktu/db/sqlc"
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,8 +34,32 @@ import (
 
 // }
 
-func GetHandlerHallo(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": "Hellow word",
-	})
+type KategoriController struct {
+	db *db.Queries
+}
+
+// func NewKategoriController(db *db.Queries) *KategoriController {
+// 	return &KategoriController{db}
+// }
+func CreateKategori(ctx *gin.Context) {
+	var a *KategoriController
+	var req *db.Kategori
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	arg := &db.CreateKategoriParams{
+		NamaKategori: req.NamaKategori,
+		Deskripsi:    req.Deskripsi,
+	}
+
+	kategori, err := a.db.CreateKategori(ctx, *arg)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "data": gin.H{"kategori": kategori}})
 }
