@@ -27,7 +27,7 @@ func main() {
 
 	dbCon = db.New(conn)
 
-	fmt.Println("PostgreSQL connected successfully...", dbCon)
+	fmt.Println("PostgreSQL connected successfully...", dbCon, conn)
 	server = gin.Default()
 
 	// repo := db.NewStore(conn)
