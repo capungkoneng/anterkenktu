@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	// db "github.com/capungkoneng/anterkenktu/db/sqlc"
@@ -58,6 +59,7 @@ func CreateKategori(ctx *gin.Context) {
 	}
 
 	kategori, err := a.db.CreateKategori(ctx, *arg)
+	fmt.Println("kategoriii", kategori)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, err.Error())
