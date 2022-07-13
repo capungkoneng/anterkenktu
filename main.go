@@ -19,8 +19,7 @@ var (
 	// AuthRoutes     routes.AuthRoutes
 )
 
-func init() {
-
+func main() {
 	conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require"))
 	if err != nil {
 		log.Fatalf("could not connect to postgres database: %v", err)
@@ -29,25 +28,14 @@ func init() {
 	dbCon = db.New(conn)
 
 	fmt.Println("PostgreSQL connected successfully...", dbCon)
-
-	// AuthController = *controllers.NewAuthController(db)
-	// AuthRoutes = routes.NewAuthRoutes(AuthController)
-
 	server = gin.Default()
-}
-
-func main() {
-	// conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require"))
-	// if err != nil {
-	// 	log.Fatal("cannot connect to database", err)
-	// }
 
 	// repo := db.NewStore(conn)
 	// router := gin.Default()
 	// fmt.Println("koneksi:", conn)
-	router := server.Group("/api")
+	v1 := server.Group("/v1")
 
-	router.GET("/", api.GetHandlerHallo)
+	v1.GET("/", api.GetHandlerHallo)
 
 	// Hanlers := NewHandlers(repo)
 	// fmt.Println("repo:", Hanlers)
