@@ -10,10 +10,10 @@ import (
 )
 
 type Kategori struct {
-	ID           int64          `json:"id"`
-	NamaKategori string         `json:"nama_kategori"`
-	Deskripsi    sql.NullString `json:"deskripsi"`
-	CreatedAt    time.Time      `json:"created_at"`
+	ID           int64     `json:"id"`
+	NamaKategori string    `json:"nama_kategori"`
+	Deskripsi    string    `json:"deskripsi"`
+	CreatedAt    time.Time `json:"created_at"`
 }
 
 type Mobil struct {

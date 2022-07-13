@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createKategori = `-- name: CreateKategori :one
@@ -20,8 +19,8 @@ INSERT INTO kategori (
 `
 
 type CreateKategoriParams struct {
-	NamaKategori string         `json:"nama_kategori"`
-	Deskripsi    sql.NullString `json:"deskripsi"`
+	NamaKategori string `json:"nama_kategori"`
+	Deskripsi    string `json:"deskripsi"`
 }
 
 func (q *Queries) CreateKategori(ctx context.Context, arg CreateKategoriParams) (Kategori, error) {

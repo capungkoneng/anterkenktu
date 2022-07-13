@@ -1,7 +1,7 @@
 CREATE TABLE "kategori" (
   "id" BIGSERIAL PRIMARY KEY,
   "nama_kategori" varchar NOT NULL,
-  "deskripsi" text ,
+  "deskripsi" text NOT NULL ,
   "created_at" timestamp NOT NULL DEFAULT (now())
 );
 

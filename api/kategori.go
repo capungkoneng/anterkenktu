@@ -1,7 +1,6 @@
 package api
 
 import (
-	"database/sql"
 	"net/http"
 
 	// db "github.com/capungkoneng/anterkenktu/db/sqlc"
@@ -38,8 +37,8 @@ type KategoriController struct {
 	db *db.Queries
 }
 type createKategRequest struct {
-	NamaKategori string         `json:"nama_kategori" binding:"required"`
-	Deskripsi    sql.NullString `json:"deskripsi" binding:"required,max=100"`
+	NamaKategori string `json:"nama_kategori" binding:"required"`
+	Deskripsi    string `json:"deskripsi" binding:"required,max=100"`
 }
 
 // func NewKategoriController(db *db.Queries) *KategoriController {
