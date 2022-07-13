@@ -34,7 +34,10 @@ import (
 // 	ctx.JSON(http.StatusOK, akun)
 
 // }
-
+type NullString struct {
+	String string
+	Valid  bool // Valid is true if String is not NULL
+}
 type KategoriController struct {
 	db *db.Queries
 }
