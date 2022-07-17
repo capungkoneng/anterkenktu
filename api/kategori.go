@@ -35,7 +35,7 @@ func (server *Server) GetListKategori(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, kategori)
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": gin.H{"kategori": kategori}})
 
 }
 
