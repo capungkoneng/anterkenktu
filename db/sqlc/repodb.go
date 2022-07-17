@@ -1,15 +1,21 @@
 package db
 
-// import "database/sql"
+import "database/sql"
 
-// type Repo struct {
-// 	*Queries
-// 	DB *sql.DB
-// }
+type Store interface {
+	Querier
+}
 
-// func NewStore(db *sql.DB) *Repo {
-// 	return &Repo{
-// 		DB:      db,
-// 		Queries: New(db),
-// 	}
-// }
+// Store provides all functions to execute db queries and transactions
+type SQLStore struct {
+	db *sql.DB
+	*Queries
+}
+
+// NewStore returns a new Store
+func NewStore(db *sql.DB) Store {
+	return &SQLStore{
+		db:      db,
+		Queries: New(db),
+	}
+}

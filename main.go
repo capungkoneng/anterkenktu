@@ -7,38 +7,27 @@ import (
 
 	"github.com/capungkoneng/anterkenktu/api"
 	db "github.com/capungkoneng/anterkenktu/db/sqlc"
-	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
 
-var (
-	server *gin.Engine
-	dbCon  *db.Queries
-
-	// AuthController controllers.AuthController
-	// AuthRoutes     routes.AuthRoutes
-)
+// const (
+// 	dbsource = "postgres"
+// 	dbdriver = "postgresql://postgres:@localhost:5432/coba?sslmode=disable"
+// )
 
 func main() {
 	conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require"))
+	// conn, err := sql.Open("postgres", "postgresql://postgres:@localhost:5432/coba?sslmode=disable")
 	if err != nil {
-		log.Fatalf("could not connect to postgres database: %v", err)
+		log.Fatal("cannot connect to database", err)
 	}
 
-	dbCon = db.New(conn)
+	store := db.NewStore(conn)
+	server := api.NewServer(&store)
 
-	fmt.Println("PostgreSQL connected successfully...", dbCon, conn)
-	server = gin.Default()
-
-	// repo := db.NewStore(conn)
-	// router := gin.Default()
-	// fmt.Println("koneksi:", conn)
-	v1 := server.Group("/api")
-
-	v1.POST("/kategori", api.CreateKategori)
-
-	// Hanlers := NewHandlers(repo)
-	// fmt.Println("repo:", Hanlers)
-	server.Run()
+	err = server.Start()
+	if err != nil {
+		log.Fatal("cannot start server", err)
+	}
 
 }
