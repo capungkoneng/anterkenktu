@@ -4,17 +4,22 @@ import (
 	"time"
 
 	db "github.com/capungkoneng/anterkenktu/db/sqlc"
+	"github.com/capungkoneng/anterkenktu/util"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
+	config util.Config
 	store  db.Store
 	router *gin.Engine
 }
 
-func NewServer(store *db.Store) *Server {
-	server := &Server{store: *store}
+func NewServer(config util.Config, store db.Store) *Server {
+	server := &Server{
+		store:  store,
+		config: config,
+	}
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"https://anterkenktu07.herokuapp.com"},

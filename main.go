@@ -8,6 +8,7 @@ import (
 
 	"github.com/capungkoneng/anterkenktu/api"
 	db "github.com/capungkoneng/anterkenktu/db/sqlc"
+	"github.com/capungkoneng/anterkenktu/util"
 	_ "github.com/lib/pq"
 )
 
@@ -17,6 +18,10 @@ import (
 // )
 
 func main() {
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config", err)
+	}
 	dbUser := os.Getenv("DB_USER")
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbHost := os.Getenv("DB_HOST")
@@ -29,7 +34,7 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	server := api.NewServer(&store)
+	server := api.NewServer(config, store)
 
 	err = server.Start()
 	if err != nil {
