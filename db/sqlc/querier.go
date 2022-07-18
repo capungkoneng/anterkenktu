@@ -10,6 +10,8 @@ import (
 
 type Querier interface {
 	CreateKategori(ctx context.Context, arg CreateKategoriParams) (Kategori, error)
+	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	GetUser(ctx context.Context, username string) (User, error)
 	ListKategori(ctx context.Context, arg ListKategoriParams) ([]Kategori, error)
 }
 

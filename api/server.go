@@ -32,6 +32,9 @@ func NewServer(config util.Config, store db.Store) *Server {
 		},
 		MaxAge: 12 * time.Hour,
 	}))
+
+	router.POST("/users", server.CreateUser)
+
 	router.GET("/kategori/", server.GetListKategori)
 	router.POST("/kategori", server.CreateKategori)
 
