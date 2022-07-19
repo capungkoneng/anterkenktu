@@ -32,10 +32,10 @@ func (server *Server) GetListKategori(ctx *gin.Context) {
 	kategori, err := server.store.ListKategori(ctx, arg)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": gin.H{"kategori": kategori}})
+	ctx.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"kategori": kategori}})
 
 }
 
