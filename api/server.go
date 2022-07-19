@@ -1,8 +1,6 @@
 package api
 
 import (
-	"time"
-
 	db "github.com/capungkoneng/anterkenktu/db/sqlc"
 	"github.com/capungkoneng/anterkenktu/util"
 	"github.com/gin-contrib/cors"
@@ -22,16 +20,21 @@ func NewServer(config util.Config, store db.Store) *Server {
 	}
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://localhost:3000"},
-		AllowMethods:     []string{"PUT", "PATCH", "DELETE", "OPTIONS", "POST", "GET"},
-		AllowHeaders:     []string{"Origin"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return origin == "https://localhost:3000"
-		},
-		MaxAge: 12 * time.Hour,
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
 	}))
+	// router.Use(cors.New(cors.Config{
+	// 	AllowOrigins:     []string{"https://localhost:3000"},
+	// 	AllowMethods:     []string{"PUT", "PATCH", "DELETE", "OPTIONS", "POST", "GET"},
+	// 	AllowHeaders:     []string{"Origin"},
+	// 	ExposeHeaders:    []string{"Content-Length"},
+	// 	AllowCredentials: true,
+	// 	AllowOriginFunc: func(origin string) bool {
+	// 		return origin == "https://localhost:3000"
+	// 	},
+	// 	MaxAge: 12 * time.Hour,
+	// }))
 
 	router.POST("/users", server.CreateUser)
 
