@@ -9,25 +9,25 @@ import (
 	"github.com/lib/pq"
 )
 
-type ListMobil struct {
-	PageID   int32 `form:"page_id" binding:"required,min=1"`
-	PageSize int32 `form:"page_size" binding:"required,min=1,max=1"`
-}
+// type ListMobil struct {
+// 	PageID   int32 `form:"page_id" binding:"required,min=1"`
+// 	PageSize int32 `form:"page_size" binding:"required,min=1,max=1"`
+// }
 
 //Get akun list
 func (server *Server) GetListMobil(ctx *gin.Context) {
-	var req ListMobil
-	if err := ctx.ShouldBindQuery(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, (err))
-		return
-	}
+	// var req ListMobil
+	// if err := ctx.ShouldBindQuery(); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, (err))
+	// 	return
+	// }
 
-	arg := db.GetMobilJoinManyParams{
-		Limit:  req.PageID,
-		Offset: (req.PageID - 1) * req.PageSize,
-	}
+	// arg := db.GetMobilJoinManyParams{
+	// 	Limit:  req.PageID,
+	// 	Offset: (req.PageID - 1) * req.PageSize,
+	// }
 
-	mobil, err := server.store.GetMobilJoinMany(ctx, arg)
+	mobil, err := server.store.GetMobilJoinMany(ctx)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": err.Error()})
