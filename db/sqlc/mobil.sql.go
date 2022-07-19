@@ -89,13 +89,13 @@ from mobil m
 inner join kategori k on m.kategori_id  = k.id
 inner join users u on u.username = m.user_id 
 inner join gambar_mobil gm on gm.mobil_id  = m.id
-where m.nama LIKE $1
-limit $2
+limit $1
+Offset $2
 `
 
 type GetMobilJoinManyParams struct {
-	Nama  string `json:"nama"`
-	Limit int32  `json:"limit"`
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
 }
 
 type GetMobilJoinManyRow struct {
@@ -106,7 +106,7 @@ type GetMobilJoinManyRow struct {
 }
 
 func (q *Queries) GetMobilJoinMany(ctx context.Context, arg GetMobilJoinManyParams) ([]GetMobilJoinManyRow, error) {
-	rows, err := q.db.QueryContext(ctx, getMobilJoinMany, arg.Nama, arg.Limit)
+	rows, err := q.db.QueryContext(ctx, getMobilJoinMany, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
