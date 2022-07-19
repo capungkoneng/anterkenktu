@@ -10,6 +10,79 @@ import (
 	"database/sql"
 )
 
+const createMobil = `-- name: CreateMobil :one
+INSERT INTO mobil (
+  nama, 
+  deskripsi,
+  kategori_id,
+  user_id,
+  gambar,
+  trf_6jam,
+  trf_12jam,
+  trf_24jam,
+  seat,
+  top_speed,
+  max_power,
+  pintu,
+  gigi
+) VALUES (
+  $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
+) RETURNING id, nama, deskripsi, kategori_id, gambar, user_id, trf_6jam, trf_12jam, trf_24jam, seat, top_speed, max_power, pintu, gigi, created_at
+`
+
+type CreateMobilParams struct {
+	Nama       string         `json:"nama"`
+	Deskripsi  sql.NullString `json:"deskripsi"`
+	KategoriID int64          `json:"kategori_id"`
+	UserID     string         `json:"user_id"`
+	Gambar     sql.NullString `json:"gambar"`
+	Trf6jam    int64          `json:"trf_6jam"`
+	Trf12jam   int64          `json:"trf_12jam"`
+	Trf24jam   int64          `json:"trf_24jam"`
+	Seat       sql.NullInt64  `json:"seat"`
+	TopSpeed   sql.NullInt64  `json:"top_speed"`
+	MaxPower   sql.NullInt64  `json:"max_power"`
+	Pintu      sql.NullInt64  `json:"pintu"`
+	Gigi       sql.NullString `json:"gigi"`
+}
+
+func (q *Queries) CreateMobil(ctx context.Context, arg CreateMobilParams) (Mobil, error) {
+	row := q.db.QueryRowContext(ctx, createMobil,
+		arg.Nama,
+		arg.Deskripsi,
+		arg.KategoriID,
+		arg.UserID,
+		arg.Gambar,
+		arg.Trf6jam,
+		arg.Trf12jam,
+		arg.Trf24jam,
+		arg.Seat,
+		arg.TopSpeed,
+		arg.MaxPower,
+		arg.Pintu,
+		arg.Gigi,
+	)
+	var i Mobil
+	err := row.Scan(
+		&i.ID,
+		&i.Nama,
+		&i.Deskripsi,
+		&i.KategoriID,
+		&i.Gambar,
+		&i.UserID,
+		&i.Trf6jam,
+		&i.Trf12jam,
+		&i.Trf24jam,
+		&i.Seat,
+		&i.TopSpeed,
+		&i.MaxPower,
+		&i.Pintu,
+		&i.Gigi,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getMobilJoinMany = `-- name: GetMobilJoinMany :many
 select m.nama, k.nama_kategori, u.username, gm.url  
 from mobil m

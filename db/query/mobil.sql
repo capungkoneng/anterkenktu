@@ -8,3 +8,22 @@ where m.nama LIKE $1
 ORDER BY m.id DESC
 limit $2
 Offset $3;
+
+-- name: CreateMobil :one
+INSERT INTO mobil (
+  nama, 
+  deskripsi,
+  kategori_id,
+  user_id,
+  gambar,
+  trf_6jam,
+  trf_12jam,
+  trf_24jam,
+  seat,
+  top_speed,
+  max_power,
+  pintu,
+  gigi
+) VALUES (
+  $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
+) RETURNING *;

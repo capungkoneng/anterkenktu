@@ -24,6 +24,7 @@ func NewServer(config util.Config, store db.Store) *Server {
 	router.POST("/users", server.CreateUser)
 
 	router.GET("/mobil/", server.GetListMobil)
+	router.POST("/mobil/tambahmobil", server.CreateMobil)
 
 	router.GET("/kategori/", server.GetListKategori)
 	router.POST("/kategori", server.CreateKategori)
