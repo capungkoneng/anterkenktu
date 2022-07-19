@@ -91,13 +91,11 @@ inner join users u on u.username = m.user_id
 inner join gambar_mobil gm on gm.mobil_id  = m.id
 where m.nama LIKE $1
 limit $2
-Offset $3
 `
 
 type GetMobilJoinManyParams struct {
-	Nama   string `json:"nama"`
-	Limit  int32  `json:"limit"`
-	Offset int32  `json:"offset"`
+	Nama  string `json:"nama"`
+	Limit int32  `json:"limit"`
 }
 
 type GetMobilJoinManyRow struct {
@@ -108,7 +106,7 @@ type GetMobilJoinManyRow struct {
 }
 
 func (q *Queries) GetMobilJoinMany(ctx context.Context, arg GetMobilJoinManyParams) ([]GetMobilJoinManyRow, error) {
-	rows, err := q.db.QueryContext(ctx, getMobilJoinMany, arg.Nama, arg.Limit, arg.Offset)
+	rows, err := q.db.QueryContext(ctx, getMobilJoinMany, arg.Nama, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

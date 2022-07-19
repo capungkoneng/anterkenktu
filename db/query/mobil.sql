@@ -5,8 +5,8 @@ inner join kategori k on m.kategori_id  = k.id
 inner join users u on u.username = m.user_id 
 inner join gambar_mobil gm on gm.mobil_id  = m.id
 where m.nama LIKE $1
-limit $2
-Offset $3;
+limit $2;
+
 
 -- name: CreateMobil :one
 INSERT INTO mobil (

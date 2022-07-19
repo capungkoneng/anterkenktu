@@ -10,9 +10,9 @@ import (
 )
 
 type ListMobil struct {
-	Nama     string `json:"nama"`
-	PageID   int32  `form:"page_id" binding:"required,min=1"`
-	PageSize int32  `form:"page_size" binding:"required,min=1,max=1"`
+	Nama   string `json:"nama"`
+	PageID int32  `form:"page_id" binding:"required,min=1"`
+	// PageSize int32  `form:"page_size" binding:"required,min=1,max=1"`
 }
 
 //Get akun list
@@ -24,9 +24,9 @@ func (server *Server) GetListMobil(ctx *gin.Context) {
 	}
 
 	arg := db.GetMobilJoinManyParams{
-		Nama:   req.Nama,
-		Limit:  req.PageSize,
-		Offset: (req.PageID - 1) * req.PageSize,
+		Nama:  req.Nama,
+		Limit: req.PageID,
+		// Offset: (req.PageID - 1) * req.PageSize,
 	}
 
 	mobil, err := server.store.GetMobilJoinMany(ctx, arg)
