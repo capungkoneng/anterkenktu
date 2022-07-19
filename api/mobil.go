@@ -33,6 +33,6 @@ func (server *Server) GetListMobil(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"kategori": mobil}})
+	ctx.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"mobil": mobil}})
 
 }
