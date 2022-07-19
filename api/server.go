@@ -19,12 +19,13 @@ func NewServer(config util.Config, store db.Store) *Server {
 		config: config,
 	}
 	router := gin.Default()
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://localhost:3000"},
-		AllowMethods:     []string{"POST", "PUT", "PATCH", "DELETE", "GET"},
-		AllowHeaders:     []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
-		AllowCredentials: true,
-	}))
+	router.Use(cors.Default())
+	// router.Use(cors.New(cors.Config{
+	// 	AllowOrigins:     []string{"https://localhost:3000"},
+	// 	AllowMethods:     []string{"POST", "PUT", "PATCH", "DELETE", "GET"},
+	// 	AllowHeaders:     []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
+	// 	AllowCredentials: true,
+	// }))
 	// router.Use(cors.New(cors.Config{
 	// 	AllowOrigins:     []string{"https://localhost:3000"},
 	// 	AllowMethods:     []string{"PUT", "PATCH", "DELETE", "OPTIONS", "POST", "GET"},
