@@ -22,13 +22,13 @@ func NewServer(config util.Config, store db.Store) *Server {
 	}
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://anterkenktu07.herokuapp.com"},
+		AllowOrigins:     []string{"https://localhost:3000"},
 		AllowMethods:     []string{"PUT", "PATCH", "DELETE", "OPTIONS", "POST", "GET"},
 		AllowHeaders:     []string{"Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {
-			return origin == "https://anterkenktu07.herokuapp.com"
+			return origin == "https://localhost:3000"
 		},
 		MaxAge: 12 * time.Hour,
 	}))

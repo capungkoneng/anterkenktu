@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -33,7 +32,6 @@ func (server *Server) CreateUser(ctx *gin.Context) {
 	}
 
 	hashedPassword, err := util.HashedPassword(req.Password)
-	fmt.Println("pass", hashedPassword, util.HashedPassword)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, (err))
 		return
