@@ -89,14 +89,7 @@ from mobil m
 inner join kategori k on m.kategori_id  = k.id
 inner join users u on u.username = m.user_id 
 inner join gambar_mobil gm on gm.mobil_id  = m.id
-limit $1
-Offset $2
 `
-
-type GetMobilJoinManyParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
 
 type GetMobilJoinManyRow struct {
 	Nama         string         `json:"nama"`
@@ -105,8 +98,8 @@ type GetMobilJoinManyRow struct {
 	Url          sql.NullString `json:"url"`
 }
 
-func (q *Queries) GetMobilJoinMany(ctx context.Context, arg GetMobilJoinManyParams) ([]GetMobilJoinManyRow, error) {
-	rows, err := q.db.QueryContext(ctx, getMobilJoinMany, arg.Limit, arg.Offset)
+func (q *Queries) GetMobilJoinMany(ctx context.Context) ([]GetMobilJoinManyRow, error) {
+	rows, err := q.db.QueryContext(ctx, getMobilJoinMany)
 	if err != nil {
 		return nil, err
 	}
