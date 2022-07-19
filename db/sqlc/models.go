@@ -9,6 +9,13 @@ import (
 	"time"
 )
 
+type GambarMobil struct {
+	ID        int64          `json:"id"`
+	Url       sql.NullString `json:"url"`
+	MobilID   sql.NullInt64  `json:"mobil_id"`
+	CreatedAt time.Time      `json:"created_at"`
+}
+
 type Kategori struct {
 	ID           int64     `json:"id"`
 	NamaKategori string    `json:"nama_kategori"`

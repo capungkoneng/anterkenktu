@@ -32,6 +32,15 @@ CREATE TABLE "mobil" (
   "created_at" timestamp NOT NULL DEFAULT (now())
 );
 
+CREATE TABLE "gambar_mobil" (
+  "id" BIGSERIAL PRIMARY KEY,
+  "url" varchar,
+  "mobil_id" bigint,
+  "created_at" timestamp NOT NULL DEFAULT (now())
+);
+
+ALTER TABLE "gambar_mobil" ADD FOREIGN KEY ("mobil_id") REFERENCES "mobil" ("id");
+
 ALTER TABLE "mobil" ADD FOREIGN KEY ("kategori_id") REFERENCES "kategori" ("id");
 
 ALTER TABLE "mobil" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("username");
