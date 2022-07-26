@@ -2,12 +2,51 @@ package api
 
 import (
 	"database/sql"
+	// "fmt"
+
 	"net/http"
 
 	db "github.com/capungkoneng/anterkenktu/db/sqlc"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
 )
+
+type gambarMobil struct {
+	Nama string        `json:"nama"`
+	Url  []interface{} `json:"url"`
+}
+
+func tes() string {
+
+	return "{teee}"
+}
+
+func resMobil(gambar []db.ListMobilNewRow) gambarMobil {
+	var url []interface{}
+
+	for _, row := range gambar {
+		url = append(url, map[string]string{"name": row.Url})
+
+	}
+
+	return gambarMobil{
+		Url: url,
+		// Username:          user.Username,
+		// FullName:          user.FullName,
+		// Email:             user.Email,
+		// PasswordChangedAt: user.PasswordChangedAt,
+		// CreatedAt:         user.CreatedAt,
+	}
+}
+
+type mobilResponse struct {
+	Nama   string      `json:"nama"`
+	Gambar gambarMobil `json:"gambar"`
+}
+
+// type getMobilRequest struct {
+// 	ID int64 `uri:"id" binding:"required,min=1"`
+// }
 
 // type ListMobil struct {
 // 	PageID   int32 `form:"page_id" binding:"required,min=1"`
@@ -16,24 +55,34 @@ import (
 
 //Get akun list
 func (server *Server) GetListMobil(ctx *gin.Context) {
-	// var req ListMobil
-	// if err := ctx.ShouldBindQuery(); err != nil {
+	// var req getMobilRequest
+	// if err := ctx.ShouldBindQuery(&req); err != nil {
 	// 	ctx.JSON(http.StatusBadRequest, (err))
 	// 	return
 	// }
-
+	// if err := ctx.ShouldBindUri(&req); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, (err))
+	// 	return
+	// }
+	gambarr, err := server.store.ListMobilNew(ctx)
+	// mobilsemua, err := server.store.GetMobilJoinMany(ctx)
 	// arg := db.GetMobilJoinManyParams{
 	// 	Limit:  req.PageID,
 	// 	Offset: (req.PageID - 1) * req.PageSize,
 	// }
 
-	mobil, err := server.store.GetMobilJoinMany(ctx)
-
+	// mobil, err := server.store.GetMobilJoinMany(ctx)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"mobil": mobil}})
+	rsp := mobilResponse{
+		Gambar: resMobil(gambarr),
+	}
+
+	ctx.JSON(http.StatusOK, rsp)
+
+	// ctx.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"mobil": mobilsemua}, "imh": gin.H{"image": gambarr}})
 
 }
 
@@ -42,7 +91,7 @@ type createMobilRequest struct {
 	Deskripsi  sql.NullString `json:"deskripsi"`
 	KategoriID int64          `json:"kategori_id"`
 	UserID     string         `json:"user_id"`
-	Gambar     sql.NullString `json:"gambar"`
+	Gambar     []string       `json:"gambar"`
 	Trf6jam    int64          `json:"trf_6jam"`
 	Trf12jam   int64          `json:"trf_12jam"`
 	Trf24jam   int64          `json:"trf_24jam"`

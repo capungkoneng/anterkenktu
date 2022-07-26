@@ -19,7 +19,7 @@ CREATE TABLE "mobil" (
   "nama" varchar NOT NULL,
   "deskripsi" text ,
   "kategori_id" bigint NOT NULL,
-  "gambar" varchar ,
+  "gambar" varchar[] ,
   "user_id" varchar NOT NULL,
   "trf_6jam" bigint NOT NULL,
   "trf_12jam" bigint NOT NULL,
@@ -34,8 +34,8 @@ CREATE TABLE "mobil" (
 
 CREATE TABLE "gambar_mobil" (
   "id" BIGSERIAL PRIMARY KEY,
-  "url" varchar,
-  "mobil_id" bigint,
+  "url" varchar NOT NULL,
+  "mobil_id" bigint NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT (now())
 );
 

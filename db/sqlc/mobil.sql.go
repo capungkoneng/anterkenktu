@@ -8,6 +8,8 @@ package db
 import (
 	"context"
 	"database/sql"
+
+	"github.com/lib/pq"
 )
 
 const createMobil = `-- name: CreateMobil :one
@@ -35,7 +37,7 @@ type CreateMobilParams struct {
 	Deskripsi  sql.NullString `json:"deskripsi"`
 	KategoriID int64          `json:"kategori_id"`
 	UserID     string         `json:"user_id"`
-	Gambar     sql.NullString `json:"gambar"`
+	Gambar     []string       `json:"gambar"`
 	Trf6jam    int64          `json:"trf_6jam"`
 	Trf12jam   int64          `json:"trf_12jam"`
 	Trf24jam   int64          `json:"trf_24jam"`
@@ -52,7 +54,7 @@ func (q *Queries) CreateMobil(ctx context.Context, arg CreateMobilParams) (Mobil
 		arg.Deskripsi,
 		arg.KategoriID,
 		arg.UserID,
-		arg.Gambar,
+		pq.Array(arg.Gambar),
 		arg.Trf6jam,
 		arg.Trf12jam,
 		arg.Trf24jam,
@@ -68,7 +70,7 @@ func (q *Queries) CreateMobil(ctx context.Context, arg CreateMobilParams) (Mobil
 		&i.Nama,
 		&i.Deskripsi,
 		&i.KategoriID,
-		&i.Gambar,
+		pq.Array(&i.Gambar),
 		&i.UserID,
 		&i.Trf6jam,
 		&i.Trf12jam,
@@ -92,10 +94,10 @@ inner join gambar_mobil gm on gm.mobil_id  = m.id
 `
 
 type GetMobilJoinManyRow struct {
-	Nama         string         `json:"nama"`
-	NamaKategori string         `json:"nama_kategori"`
-	Username     string         `json:"username"`
-	Url          sql.NullString `json:"url"`
+	Nama         string `json:"nama"`
+	NamaKategori string `json:"nama_kategori"`
+	Username     string `json:"username"`
+	Url          string `json:"url"`
 }
 
 func (q *Queries) GetMobilJoinMany(ctx context.Context) ([]GetMobilJoinManyRow, error) {

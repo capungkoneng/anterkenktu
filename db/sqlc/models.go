@@ -10,10 +10,10 @@ import (
 )
 
 type GambarMobil struct {
-	ID        int64          `json:"id"`
-	Url       sql.NullString `json:"url"`
-	MobilID   sql.NullInt64  `json:"mobil_id"`
-	CreatedAt time.Time      `json:"created_at"`
+	ID        int64     `json:"id"`
+	Url       string    `json:"url"`
+	MobilID   int64     `json:"mobil_id"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 type Kategori struct {
@@ -28,7 +28,7 @@ type Mobil struct {
 	Nama       string         `json:"nama"`
 	Deskripsi  sql.NullString `json:"deskripsi"`
 	KategoriID int64          `json:"kategori_id"`
-	Gambar     sql.NullString `json:"gambar"`
+	Gambar     []string       `json:"gambar"`
 	UserID     string         `json:"user_id"`
 	Trf6jam    int64          `json:"trf_6jam"`
 	Trf12jam   int64          `json:"trf_12jam"`

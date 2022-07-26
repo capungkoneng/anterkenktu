@@ -15,6 +15,8 @@ type Querier interface {
 	GetMobilJoinMany(ctx context.Context) ([]GetMobilJoinManyRow, error)
 	GetUser(ctx context.Context, username string) (User, error)
 	ListKategori(ctx context.Context, arg ListKategoriParams) ([]Kategori, error)
+	ListMobilNew(ctx context.Context) ([]ListMobilNewRow, error)
+	ListMobilNewB(ctx context.Context) ([]Mobil, error)
 }
 
 var _ Querier = (*Queries)(nil)
