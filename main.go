@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/capungkoneng/anterkenktu/controllers"
 	dbConn "github.com/capungkoneng/anterkenktu/db/sqlc"
 	"github.com/capungkoneng/anterkenktu/routes"
-	"github.com/capungkoneng/anterkenktu/util"
 	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
@@ -27,17 +27,17 @@ var (
 )
 
 func init() {
-	config, err := util.LoadConfigV(".")
-	if err != nil {
-		log.Fatal("cannot load config", err)
-	}
-	// dbUser := os.Getenv("DB_USER")
-	// dbPass := os.Getenv("DB_PASSWORD")
-	// dbHost := os.Getenv("DB_HOST")
-	// dbName := os.Getenv("DB_NAME")
-	// dbPort := os.Getenv("DB_PORT")
-	// conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require TimeZone=Asia/Shanghai", dbHost, dbUser, dbPass, dbPort, dbName))
-	conn, err := sql.Open("postgres", config.DBSource)
+	// config, err := util.LoadConfigV(".")
+	// if err != nil {
+	// 	log.Fatal("cannot load config", err)
+	// }
+	dbUser := os.Getenv("DB_USER")
+	dbPass := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbName := os.Getenv("DB_NAME")
+	dbPort := os.Getenv("DB_PORT")
+	conn, err := sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require TimeZone=Asia/Shanghai", dbHost, dbUser, dbPass, dbPort, dbName))
+	// conn, err := sql.Open("postgres", config.DBSource)
 	if err != nil {
 		log.Fatalf("could not connect to postgres database: %v", err)
 	}
